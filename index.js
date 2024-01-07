@@ -8,11 +8,13 @@ const NG_POSITIONS_URL = 'https://www.moex.com/api/contract/OpenOptionService/06
 
 app.get('/', async (req, res) => {
   const data = await getOptions();
+  res.setHeader('Access-Control-Allow-Headers', '*');
   res.send(data);
 })
 
 app.get('/positions', async (_, res) => {
   const data = await getPositions();
+  res.setHeader('Access-Control-Allow-Headers', '*');
   res.send(data);
 });
 
