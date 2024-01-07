@@ -23,3 +23,5 @@ const server = app.listen(port, (error) => {
   // console.log('Server ready');
   console.log(`Server listening on port ${server.address().port}`);
 });
+
+module.exports = app;
