@@ -9,7 +9,7 @@ const NG_OPT_URL = 'https://iss.moex.com/iss/engines/futures/markets/forts/secur
 
 const NG_POSITIONS_URL = 'https://www.moex.com/api/contract/OpenOptionService/06.01.2124/F/NG/json';
 
-app.get('/', async (req, res, next) => {
+app.get('/options', async (_, res, next) => {
   const data = await getOptions();
   // res.setHeader('Access-Control-Allow-Headers', '*');
   res.send(data);
