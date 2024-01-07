@@ -4,7 +4,7 @@ const app = express();
 
 const NG_OPT_URL = 'https://iss.moex.com/iss/engines/futures/markets/forts/securities/NGF4.jsonp?iss.meta=off&iss.json=extended&callback=JSON_CALLBACK&lang=ru&contractname=1';
 
-const NG_POSITIONS_URL = 'https://www.moex.com/api/contract/OpenOptionService/06.01.2024/F/NG/json';
+const NG_POSITIONS_URL = 'https://www.moex.com/api/contract/OpenOptionService/06.01.2124/F/NG/json';
 
 app.get('/', async (req, res) => {
   const data = await getOptions();
