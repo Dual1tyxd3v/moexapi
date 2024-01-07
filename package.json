@@ -9,6 +9,7 @@
   "author": "D3vc0re",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.18.2"
   }
 }

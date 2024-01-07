@@ -1,6 +1,9 @@
 const express = require('express');
+const cors = require('cors');
 const port = 3002;
 const app = express();
+
+app.use(cors());
 
 const NG_OPT_URL = 'https://iss.moex.com/iss/engines/futures/markets/forts/securities/NGF4.jsonp?iss.meta=off&iss.json=extended&callback=JSON_CALLBACK&lang=ru&contractname=1';
 
