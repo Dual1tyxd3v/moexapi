@@ -3,11 +3,7 @@ const cors = require('cors');
 const port = 3002;
 const app = express();
 
-let corsOptions = {
-  origin: ['http://localhost:5173'],
-}
-
-app.use(cors(corsOptions));
+app.use(cors());
 
 const NG_OPT_URL = 'https://iss.moex.com/iss/engines/futures/markets/forts/securities/NGF4.jsonp?iss.meta=off&iss.json=extended&callback=JSON_CALLBACK&lang=ru&contractname=1';
 
@@ -15,13 +11,13 @@ const NG_POSITIONS_URL = 'https://www.moex.com/api/contract/OpenOptionService/06
 
 app.get('/', async (req, res, next) => {
   const data = await getOptions();
-  res.setHeader('Access-Control-Allow-Headers', '*');
+  // res.setHeader('Access-Control-Allow-Headers', '*');
   res.send(data);
 })
 
 app.get('/positions', async (_, res, next) => {
   const data = await getPositions();
-  res.setHeader('Access-Control-Allow-Headers', '*');
+  // res.setHeader('Access-Control-Allow-Headers', '*');
   res.send(data);
 });
 
