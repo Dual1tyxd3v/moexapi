@@ -1,9 +1,11 @@
 const express = require('express');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 const port = 3002;
 const app = express();
 
 app.use(cors());
+app.use(bodyParser.json());
 
 const NG_OPT_URL = 'https://iss.moex.com/iss/engines/futures/markets/forts/securities/NGF4.jsonp?iss.meta=off&iss.json=extended&callback=JSON_CALLBACK&lang=ru&contractname=1';
 
@@ -11,20 +13,19 @@ const NG_POSITIONS_URL = 'https://www.moex.com/api/contract/OpenOptionService/06
 
 app.get('/options', async (_, res, next) => {
   const data = await getOptions();
-  // res.setHeader('Access-Control-Allow-Headers', '*');
   res.send(data);
 })
 
 app.get('/positions', async (_, res, next) => {
   const data = await getPositions();
-  // res.setHeader('Access-Control-Allow-Headers', '*');
   res.send(data);
 });
 
 app.post('/universal', async (req, res, next) => {
-  const url = req.body;
+  const url = req.body.url;
   const resp = await universalLoader(url);
-  res.send(resp);
+  const text = await resp.text();
+  res.send(text);
 })
 
 async function universalLoader(url) {
