@@ -21,7 +21,7 @@ app.get('/positions', async (_, res, next) => {
   res.send(data);
 });
 
-app.get('/universal', async (req, res, next) => {
+app.post('/universal', async (req, res, next) => {
   const url = req.body;
   const resp = await universalLoader(url);
   res.send(resp);
