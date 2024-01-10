@@ -21,6 +21,17 @@ app.get('/positions', async (_, res, next) => {
   res.send(data);
 });
 
+app.get('/universal', async (req, res, next) => {
+  const url = req.body;
+  const resp = await universalLoader(url);
+  res.send(resp);
+})
+
+async function universalLoader(url) {
+  const resp = await fetch(url);
+  return resp;
+}
+
 async function getPositions() {
   const resp = await fetch(NG_POSITIONS_URL);
   if (!resp.ok) return { error: 'Cant load NG positions' };
