@@ -167,5 +167,3 @@ function parseFilmDetails(filmDiv) {
     };
   });
 }
-
-module.exports = { parsePob, parseFilms };
