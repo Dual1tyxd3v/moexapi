@@ -42,7 +42,6 @@ app.get('/positions', async (_, res, next) => {
   res.send(JSON.stringify(data));
 }); */
 
-
 app.post('/universal', async (req, res, next) => {
   const url = req.body.url;
   const resp = await universalLoader(url);
@@ -79,8 +78,6 @@ const server = app.listen(port, (error) => {
   // console.log('Server ready');
   console.log(`Server listening on port ${server.address().port}`);
 });
-
-module.exports = app;
 
 async function parsePob(url) {
   try {
@@ -167,3 +164,5 @@ function parseFilmDetails(filmDiv) {
     };
   });
 }
+
+module.exports = app;
