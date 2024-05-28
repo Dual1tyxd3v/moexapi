@@ -76,8 +76,8 @@ async function getOptions() {
   return { step: STEPPRICE, go: INITIALMARGIN };
 }
 
-const server = app.listen(port, (error) => {
-  console.log(`Server listening on port ${server.address().port}`);
+app.listen(port, (error) => {
+  console.log(`Server listening on port ${port}`);
 });
 
 async function parsePob(url) {
