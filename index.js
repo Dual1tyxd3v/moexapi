@@ -1,14 +1,14 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const jsdom = require('jsdom');
+// const jsdom = require('jsdom');
 const port = 3002;
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
 
-const { JSDOM } = jsdom;
+// const { JSDOM } = jsdom;
 const POEWIKI_URL = 'https://www.poewiki.net/wiki/';
 const NG_OPT_URL =
   'https://iss.moex.com/iss/engines/futures/markets/forts/securities/NGH4.jsonp?iss.meta=off&iss.json=extended&callback=JSON_CALLBACK&lang=ru&contractname=1';
@@ -25,28 +25,23 @@ app.get('/positions', async (_, res, next) => {
   res.send(data);
 });
 
-app.post('/pob', async (req, res) => {
+/* app.post('/pob', async (req, res) => {
   const { url } = req.body || null;
   if (!url) res.send({ data: null, error: 'Need url' });
   const data = await parsePob(url);
 
   res.send(JSON.stringify(data));
-});
+}); */
 
-app.post('/films', async (req, res) => {
+/* app.post('/films', async (req, res) => {
   const { url } = req.body || null;
   if (!url) res.send({ data: null, error: 'Broken URL' });
 
   const data = await parseFilms(url);
 
   res.send(JSON.stringify(data));
-});
+}); */
 
-app.post('/parse', async (req, res, next) => {
-  const url = req.body.url;
-  console.log(url);
-  res.status(200).send('ok');
-});
 
 app.post('/universal', async (req, res, next) => {
   const url = req.body.url;
