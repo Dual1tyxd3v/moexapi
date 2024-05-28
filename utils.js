@@ -131,7 +131,7 @@ async function sendMessage(msg) {
   try {
     const resp = await fetch(`${MESSAGE_URL}${msg}`);
 
-    return { isSuccess: resp.ok && resp.result ? true : false, message: '' };
+    return { isSuccess: resp.ok ? true : false, message: '' };
   } catch (e) {
     console.log(e);
     return { isSuccess: false, message: e.message };
