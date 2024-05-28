@@ -132,7 +132,7 @@ async function parseFilms(url) {
   try {
     const resp = await fetch(url);
     if (!resp.ok) {
-      console.log('Cant load URL');
+      console.log('Cant load URL', resp);
       return { data: resp };
       return { data: null, error: 'Cant load url' };
     }
