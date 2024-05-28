@@ -1,10 +1,10 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const { parsePob, parseFilms } = require('./utils');
 const port = 3002;
 const app = express();
 
-const { parsePob, parseFilms } = require('./utils');
 
 app.use(cors());
 app.use(bodyParser.json());
