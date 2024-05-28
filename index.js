@@ -2,14 +2,14 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const jsdom = require('jsdom');
-const { JSDOM } = jsdom;
-const POEWIKI_URL = 'https://www.poewiki.net/wiki/';
 const port = 3002;
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
 
+const { JSDOM } = jsdom;
+const POEWIKI_URL = 'https://www.poewiki.net/wiki/';
 const NG_OPT_URL =
   'https://iss.moex.com/iss/engines/futures/markets/forts/securities/NGH4.jsonp?iss.meta=off&iss.json=extended&callback=JSON_CALLBACK&lang=ru&contractname=1';
 
