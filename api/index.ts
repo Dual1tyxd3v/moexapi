@@ -1,9 +1,7 @@
-import { parseNClub } from '../utils';
-
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const { parsePob, parseFilms } = require('../utils');
+const { parseNClub, parsePob, sendMessage } = require('../utils');
 const port = 3002;
 const app = express();
 
@@ -35,13 +33,22 @@ app.post('/pob', async (req, res) => {
 
 app.get('/', (req, res) => res.send('Express on Vercel'));
 
-app.post('/films', async (req, res) => {
+/* app.post('/films', async (req, res) => {
   const { url } = req.body || null;
   if (!url) res.send({ data: null, error: 'Broken URL' });
 
   const data = await parseFilms(url);
 
   res.send(JSON.stringify(data));
+}); */
+
+app.post('/message', async (req, res) => {
+  const { message } = req.body || null;
+
+  if (!message) res.send(JSON.stringify({ isSuccess: false, message: 'Empty message' }));
+
+  const response = await sendMessage(message);
+  res.send(JSON.stringify(response));
 });
 
 app.get('/nclub', async (_, res) => {
