@@ -173,4 +173,4 @@ function parseFilmDetails(filmDiv) {
   });
 }
 
-module.exports = { parsePob, parseFilms };
+module.exports = app;
