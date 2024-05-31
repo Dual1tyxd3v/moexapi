@@ -50,7 +50,7 @@ async function parsePob(url) {
     return { data: { name, level, implicit, explicit, text, image: `${prefixUrl}${imageSrc}`, source }, error: '' };
   } catch (e) {
     console.log(e);
-    return { data: null, error: 'Cant load URL' };
+    return { data: null, error: e.message };
   }
 }
 
