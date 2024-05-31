@@ -13,7 +13,7 @@ async function parsePob(url) {
     const itemName = splittedUrl[splittedUrl.length - 1];
 
     const imageResp = await fetch(`${POEWIKI_URL}${itemName}`);
-    if (!imageResp.ok) throw new Error('Cant load URL');
+    if (!imageResp.ok) throw new Error('Cant load image URL');
 
     const imageHtml = await imageResp.text();
     const imageDom = new JSDOM(imageHtml);
@@ -23,7 +23,7 @@ async function parsePob(url) {
     const imageSrc = imageDoc.querySelector('.images').querySelector('img').src.split('.png')[0] + '.png';
 
     const resp = await fetch(formatedUrl);
-    if (!resp.ok) throw new Error('Cant load URL');
+    if (!resp.ok) throw new Error('Cant load DB URL');
 
     const html = await resp.text();
     const dom = new JSDOM(html);
