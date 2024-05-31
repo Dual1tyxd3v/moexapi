@@ -32,7 +32,7 @@ async function parsePob(url) {
     const header = doc.querySelector('.itemHeader');
     const name = [...header.querySelectorAll('.itemName')].map((div) => div.textContent);
 
-    const level = +doc.querySelector('.requirements').querySelector('span').textContent || -1;
+    const level = +doc.querySelector('.requirements')?.querySelector('span')?.textContent || -1;
 
     const implicit = doc.querySelector('.implicitMod')?.textContent || '---';
 
