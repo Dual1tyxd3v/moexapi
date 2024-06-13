@@ -161,7 +161,7 @@ async function getWeather(ip) {
   try {
     // Location
     const LOCATION_URL = 'http://ip-api.com/json/';
-    const location = await fetch(LOCATION_URL);
+    const location = await fetch(LOCATION_URL + ip);
 
     if (!location.ok) {
       return { data: null, error: 'Cant load location' };
