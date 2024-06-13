@@ -168,9 +168,8 @@ async function getWeather(ip) {
     }
 
     const locData = await location.json();
-    return { data: locData };
 
-    if (!country || !city) return { data: null, error: 'Cant get location' };
+    if (!locData.country || !!locData.city) return { data: null, error: 'Cant get location' };
 
     const CURRENT_WEATHER = `https://www.timeanddate.com/weather/${country.toLowerCase()}/${city.toLowerCase()}`;
     const FORECAST_WEATHER = `https://www.timeanddate.com/weather/${country.toLowerCase()}/${city.toLowerCase()}/ext`;
@@ -181,7 +180,7 @@ async function getWeather(ip) {
     const resp = await Promise.all([current, forecast]);
     if (!resp.ok) {
       console.log(resp.statusText);
-      return { data: null, error: resp.statusText };
+      return { data: null, error: resp.statusText || 'Promise error' };
     }
 
     // Current weather
@@ -199,6 +198,7 @@ async function getWeather(ip) {
     });
 
     const icon = `https:${currentBlock.querySelector('#cur-weather').getAttribute('src')}`;
+    return { data: { temp, pressure, humidity, icon } };
     // Forecast weather
     const forecastHTML = await resp[1].text();
     const forecastDom = new JSDOM(forecastHTML);
