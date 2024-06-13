@@ -26,6 +26,7 @@ app.get('/weather', async (req, res) => {
     req.headers['x-real-ip'] ||
     req.connection.remoteAddress ||
     req.socket.remoteAddress;
+  res.send(ip);
   const data = await getWeather(ip);
   res.send(data);
 });
