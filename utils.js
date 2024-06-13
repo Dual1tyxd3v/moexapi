@@ -157,6 +157,10 @@ async function getItems(accountName, realm, character) {
   }
 }
 
+function fahrToCelc(f) {
+  return Math.round(((parseInt(f) - 30) * 5) / 9);
+}
+
 async function getWeather(ip) {
   try {
     // Location
@@ -197,7 +201,7 @@ async function getWeather(ip) {
 
     const currentBlock = currentDoc.querySelector('.bk-focus');
 
-    const temp = currentBlock.querySelector('.h2').textContent;
+    const temp = fahrToCelc(currentBlock.querySelector('.h2').textContent);
 
     const [, , , , pressure, humidity] = [...currentBlock.querySelectorAll('tr')].map((tr) => {
       const td = tr.querySelector('td');
@@ -216,9 +220,9 @@ async function getWeather(ip) {
       const [max, min] = td.split(' / ').map((temp) => parseInt(temp));
 
       return {
-        max,
-        min,
-        average: (min + max) / 2,
+        max: fahrToCelc(max),
+        min: fahrToCelc(min),
+        average: fahrToCelc((min + max) / 2),
       };
     });
 
