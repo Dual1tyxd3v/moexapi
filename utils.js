@@ -162,6 +162,11 @@ async function getWeather(ip) {
     // Location
     const LOCATION_URL = 'http://ip-api.com/json/';
     const location = await fetch(LOCATION_URL);
+
+    if (!location.ok) {
+      return { data: null, error: 'Cant load location' };
+    }
+
     const { country, city } = await location.json();
 
     if (!country || !city) return { data: null, error: 'Cant get location' };
@@ -200,7 +205,6 @@ async function getWeather(ip) {
 
     const table = forecastDoc.querySelector('#wt-ext').querySelector('tbody');
     const forecastTemp = [...table.querySelectorAll('tr')].map((tr) => {
-      // console.log(tr.textContent);
       const td = tr.querySelectorAll('td')[1].textContent;
       const [max, min] = td.split(' / ').map((temp) => parseInt(temp));
 
@@ -211,7 +215,7 @@ async function getWeather(ip) {
       };
     });
 
-    return { temp, pressure, humidity, icon, forecastTemp };
+    return { data: { temp, pressure, humidity, icon, forecastTemp }, error: '' };
   } catch (e) {
     console.log(e);
   }
