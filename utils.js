@@ -180,7 +180,7 @@ async function getWeather(ip) {
     const resp = await Promise.all([current, forecast]);
     if (!resp.ok) {
       console.log(resp.statusText);
-      return { data: null, error: resp.statusText || 'Promise error' };
+      return { data: null, error: resp.statusText || 'Promise error', r: resp };
     }
 
     // Current weather
