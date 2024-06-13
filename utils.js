@@ -158,7 +158,11 @@ async function getItems(accountName, realm, character) {
 }
 
 function fahrToCelc(f) {
-  return Math.round(((parseInt(f) - 30) * 5) / 9);
+  return Math.floor(((parseInt(f) - 30) * 5) / 9);
+}
+
+function hgToMbar(h) {
+  return Math.floor(parseInt(h) * 33.8639);
 }
 
 async function getWeather(ip) {
@@ -226,7 +230,7 @@ async function getWeather(ip) {
       };
     });
 
-    return { data: { temp, pressure, humidity, icon, forecastTemp }, error: '' };
+    return { data: { temp, pressure, humidity: hgToMbar(humidity), icon, forecastTemp }, error: '' };
   } catch (e) {
     console.log(e);
     return { data: null, error: e.message };
