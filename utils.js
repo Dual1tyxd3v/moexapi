@@ -230,7 +230,7 @@ async function getWeather(ip) {
       };
     });
 
-    return { data: { temp, pressure, humidity: hgToMbar(humidity), icon, forecastTemp }, error: '' };
+    return { data: { temp, pressure: hgToMbar(pressure), humidity, icon, forecastTemp }, error: '' };
   } catch (e) {
     console.log(e);
     return { data: null, error: e.message };
