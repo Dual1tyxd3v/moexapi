@@ -1,12 +1,14 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const { parseNClub, parsePob, sendMessage } = require('../utils');
+const { parseNClub, parsePob, sendMessage, getItems, getWeather } = require('../utils');
 const port = 3002;
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
+
+app.set('trust proxy', true);
 
 const NG_OPT_URL =
   'https://iss.moex.com/iss/engines/futures/markets/forts/securities/NGH4.jsonp?iss.meta=off&iss.json=extended&callback=JSON_CALLBACK&lang=ru&contractname=1';
@@ -16,6 +18,17 @@ const NG_POSITIONS_URL = 'https://www.moex.com/api/contract/OpenOptionService/06
 app.get('/options', async (_, res, next) => {
   const data = await getOptions();
   res.send(data);
+});
+
+app.get('/weather', async (req, res) => {
+  // console.log(req.ip);
+  /* const ip =
+    (req.headers['x-forwarded-for'] || '').split(',').pop() ||
+    req.headers['x-real-ip'] ||
+    req.connection.remoteAddress ||
+    req.socket.remoteAddress; */
+  const data = await getWeather(req.ip);
+  res.status(200).send(data);
 });
 
 app.get('/positions', async (_, res, next) => {
@@ -62,6 +75,15 @@ app.post('/universal', async (req, res, next) => {
   const resp = await universalLoader(url);
   const text = await resp.text();
   res.send(text);
+});
+
+app.post('/poestats', async (req, res) => {
+  const { accountName, realm, character } = req.body;
+  console.log('TOUCHED');
+  if (!accountName || !realm || !character) res.send({ data: null, error: 'Wrong data' });
+
+  const data = await getItems(accountName, realm, character);
+  res.send(JSON.stringify(data));
 });
 
 async function universalLoader(url) {

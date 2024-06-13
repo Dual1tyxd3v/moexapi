@@ -138,4 +138,83 @@ async function sendMessage(msg) {
   }
 }
 
-module.exports = { parsePob, parseFilms, parseNClub, sendMessage };
+async function getItems(accountName, realm, character) {
+  const url = 'https://www.pathofexile.com/character-window/get-items';
+  try {
+    const resp = await fetch(`${url}?accountName=${accountName}&realm=${realm}&character=${character}`, {
+      headers: {},
+    });
+    if (!resp.ok) {
+      console.log(resp);
+      return { data: null, error: resp.statusText };
+    }
+    const data = await resp.json();
+
+    return { data, error: '' };
+  } catch (e) {
+    console.log(e);
+    return { data: null, error: e.message };
+  }
+}
+
+async function getWeather(ip) {
+  try {
+    // Location
+    const LOCATION_URL = 'http://ip-api.com/json/';
+    const location = await fetch(LOCATION_URL);
+    const { country, city } = await location.json();
+
+    if (!country || !city) return { data: null, error: 'Cant get location' };
+
+    const CURRENT_WEATHER = `https://www.timeanddate.com/weather/${country}/${city}`;
+    const FORECAST_WEATHER = `https://www.timeanddate.com/weather/${country}/${city}/ext`;
+
+    const current = fetch(CURRENT_WEATHER);
+    const forecast = fetch(FORECAST_WEATHER);
+
+    const resp = await Promise.all([current, forecast]);
+    if (!resp.ok) {
+      console.log(resp.statusText);
+      return { data: null, error: resp.statusText };
+    }
+
+    // Current weather
+    const currentHTML = await resp[0].text();
+    const currentDom = new JSDOM(currentHTML);
+    const currentDoc = currentDom.window.document;
+
+    const currentBlock = currentDoc.querySelector('.bk-focus');
+
+    const temp = currentBlock.querySelector('.h2').textContent;
+
+    const [, , , , pressure, humidity] = [...currentBlock.querySelectorAll('tr')].map((tr) => {
+      const td = tr.querySelector('td');
+      return td.textContent || '_';
+    });
+
+    const icon = `https:${currentBlock.querySelector('#cur-weather').getAttribute('src')}`;
+    // Forecast weather
+    const forecastHTML = await resp[1].text();
+    const forecastDom = new JSDOM(forecastHTML);
+    const forecastDoc = forecastDom.window.document;
+
+    const table = forecastDoc.querySelector('#wt-ext').querySelector('tbody');
+    const forecastTemp = [...table.querySelectorAll('tr')].map((tr) => {
+      // console.log(tr.textContent);
+      const td = tr.querySelectorAll('td')[1].textContent;
+      const [max, min] = td.split(' / ').map((temp) => parseInt(temp));
+
+      return {
+        max,
+        min,
+        average: (min + max) / 2,
+      };
+    });
+
+    return { temp, pressure, humidity, icon, forecastTemp };
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+module.exports = { parsePob, getWeather, parseFilms, parseNClub, sendMessage, getItems };
