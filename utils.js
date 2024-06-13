@@ -178,7 +178,7 @@ async function getWeather(ip) {
     const forecast = fetch(FORECAST_WEATHER);
 
     const resp = await Promise.all([current, forecast]);
-    if (!resp.ok) {
+    if (!resp[0].ok || !resp[1].ok) {
       console.log(resp.statusText);
       return {
         data: null,
