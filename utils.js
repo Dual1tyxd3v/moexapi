@@ -168,6 +168,7 @@ async function getWeather(ip) {
     }
 
     const locData = await location.json();
+    return { M: locData };
 
     if (!locData.country || !!locData.city) return { data: null, error: 'Cant get location' };
 
