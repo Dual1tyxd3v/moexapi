@@ -21,14 +21,13 @@ app.get('/options', async (_, res, next) => {
 });
 
 app.get('/weather', async (req, res) => {
-  // console.log(req.ip);
-  /* const ip =
+  const ip =
     (req.headers['x-forwarded-for'] || '').split(',').pop() ||
     req.headers['x-real-ip'] ||
     req.connection.remoteAddress ||
-    req.socket.remoteAddress; */
-  const data = await getWeather(req.ip);
-  res.status(200).send(data);
+    req.socket.remoteAddress;
+  const data = await getWeather(ip);
+  res.send(data);
 });
 
 app.get('/positions', async (_, res, next) => {
