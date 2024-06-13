@@ -160,14 +160,15 @@ async function getItems(accountName, realm, character) {
 async function getWeather(ip) {
   try {
     // Location
-    const LOCATION_URL = 'http://ip-api.com/json/';
-    const location = await fetch(LOCATION_URL + ip);
+    const LOCATION_URL = `http://ip-api.com/json/${ip}`;
+    const location = await fetch(LOCATION_URL);
 
     if (!location.ok) {
       return { data: null, error: 'Cant load location' };
     }
 
-    const { country, city } = await location.json();
+    const locData = await location.json();
+    return { data: locData };
 
     if (!country || !city) return { data: null, error: 'Cant get location' };
 
