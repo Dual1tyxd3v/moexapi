@@ -166,6 +166,15 @@ function hgToMbar(h) {
 }
 
 const MS_PER_DAY = 86400000;
+function formatDate(time, i) {
+  const forecastDay = new Date(time + MS_PER_DAY * (i + 1));
+
+  const date = forecastDay.getDate().toString().padStart(2, '0');
+  const month = (forecastDay.getMonth() + 1).toString().padStart(2, '0');
+  const year = forecastDay.getFullYear();
+
+  return `${date}-${month}-${year}`;
+}
 
 async function getWeather(ip) {
   try {
@@ -221,6 +230,9 @@ async function getWeather(ip) {
     const forecastDoc = forecastDom.window.document;
 
     const table = forecastDoc.querySelector('#wt-ext').querySelector('tbody');
+
+    const currentDate = new Date().getTime();
+
     const forecastTemp = [...table.querySelectorAll('tr')].map((tr, i) => {
       const td = tr.querySelectorAll('td')[1].textContent;
       const [max, min] = td.split(' / ').map((temp) => parseInt(temp));
@@ -229,7 +241,7 @@ async function getWeather(ip) {
         max: fahrToCelc(max),
         min: fahrToCelc(min),
         average: fahrToCelc((min + max) / 2),
-        date: new Date().getTime() + MS_PER_DAY * (i + 1),
+        date: formatDate(currentDate, i),
       };
     });
 
