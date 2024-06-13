@@ -165,6 +165,8 @@ function hgToMbar(h) {
   return Math.floor(parseInt(h) * 33.8639);
 }
 
+const MS_PER_DAY = 86400000;
+
 async function getWeather(ip) {
   try {
     // Location
@@ -219,7 +221,7 @@ async function getWeather(ip) {
     const forecastDoc = forecastDom.window.document;
 
     const table = forecastDoc.querySelector('#wt-ext').querySelector('tbody');
-    const forecastTemp = [...table.querySelectorAll('tr')].map((tr) => {
+    const forecastTemp = [...table.querySelectorAll('tr')].map((tr, i) => {
       const td = tr.querySelectorAll('td')[1].textContent;
       const [max, min] = td.split(' / ').map((temp) => parseInt(temp));
 
@@ -227,10 +229,11 @@ async function getWeather(ip) {
         max: fahrToCelc(max),
         min: fahrToCelc(min),
         average: fahrToCelc((min + max) / 2),
+        date: new Date().getTime() + MS_PER_DAY * (i + 1),
       };
     });
 
-    return { data: { temp, pressure: hgToMbar(pressure), humidity, icon, forecastTemp }, error: '' };
+    return { data: { temp, city, pressure: hgToMbar(pressure), humidity, icon, forecastTemp }, error: '' };
   } catch (e) {
     console.log(e);
     return { data: null, error: e.message };
