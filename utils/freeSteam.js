@@ -32,8 +32,9 @@ const parseFreeSteam = (html) => {
     const img = post.querySelector('img').getAttribute('data-srcset').split(' ')[0];
     const place = post.querySelector('.entry-cats').querySelector('a').textContent;
     const url = post.querySelector('a').href;
+    const name = post.querySelector('.entry-title').textContent.replace('Раздача ', '').split(' для ')[0];
 
-    return { img, place, url };
+    return { img, place, url, name };
   });
 };
 
