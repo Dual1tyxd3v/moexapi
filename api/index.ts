@@ -7,6 +7,7 @@ const { getWeather } = require('../utils/weather');
 const { parseNClub } = require('../utils/nClub');
 const { getPositions, getOptions } = require('../utils/moex');
 const { getFreeSteam } = require('../utils/freeSteam');
+const { getVideo } = require('../utils/youtube');
 const port = 3002;
 const app = express();
 
@@ -64,6 +65,14 @@ app.get('/nclub', async (_, res) => {
   const data = await parseNClub();
 
   res.send(JSON.stringify(data));
+});
+
+app.post('/youtube', async (req, res) => {
+  const { url } = req.body || null;
+  if (!url) res.send(JSON.stringify({ data: null, error: 'Wrong URL' }));
+
+  const resp = await getVideo(url);
+  res.send(JSON.stringify(resp));
 });
 
 app.post('/universal', async (req, res, next) => {
