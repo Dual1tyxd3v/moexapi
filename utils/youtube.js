@@ -1,6 +1,6 @@
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-core');
 
 const EMBED_URL = 'https://www.youtube.com/embed/';
 
