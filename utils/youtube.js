@@ -30,7 +30,7 @@ const getVideo = async (url) => {
     return { data, error: '' };
   } catch (e) {
     console.log(e);
-    return { data: null, error: e.message };
+    return { data: [], error: e.message };
   }
 };
 

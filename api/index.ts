@@ -69,7 +69,7 @@ app.get('/nclub', async (_, res) => {
 
 app.post('/youtube', async (req, res) => {
   const { url } = req.body || null;
-  if (!url) res.send(JSON.stringify({ data: null, error: 'Wrong URL' }));
+  if (!url) res.send(JSON.stringify({ data: [], error: 'Wrong URL' }));
 
   const resp = await getVideo(url);
   res.send(JSON.stringify(resp));
