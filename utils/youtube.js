@@ -1,13 +1,19 @@
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
+const chromium = require('@sparticuz/chromium');
 const puppeteer = require('puppeteer-core');
-import { executablePath } from 'puppeteer';
 
 const EMBED_URL = 'https://www.youtube.com/embed/';
 
 const getVideo = async (url) => {
   try {
-    const browser = await puppeteer.launch({ executablePath: executablePath() });
+    const browser = await puppeteer.launch({
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
+      executablePath: await chromium.executablePath(),
+      headless: chromium.headless,
+      ignoreHTTPSErrors: true,
+    });
     const page = await browser.newPage();
 
     await page.goto(url);
