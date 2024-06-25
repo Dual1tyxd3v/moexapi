@@ -1,12 +1,13 @@
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 const puppeteer = require('puppeteer-core');
+import { executablePath } from 'puppeteer';
 
 const EMBED_URL = 'https://www.youtube.com/embed/';
 
 const getVideo = async (url) => {
   try {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({ executablePath: executablePath() });
     const page = await browser.newPage();
 
     await page.goto(url);
