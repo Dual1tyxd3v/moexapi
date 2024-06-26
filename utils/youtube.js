@@ -9,11 +9,9 @@ const EMBED_URL = 'https://www.youtube.com/embed/';
 
 const getVideo = async (url) => {
   try {
-    let browser = await puppeteerCore.launch({
-      args: chromium.args,
-      defaultViewport: chromium.defaultViewport,
-      executablePath: await chromium.executablePath(),
-      headless: chromium.headless,
+    let browser = await puppeteer.launch({
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      headless: true,
     });
     if (process.env.NODE_ENV === 'development') {
       browser = await puppeteer.launch({
