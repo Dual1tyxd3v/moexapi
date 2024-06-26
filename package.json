@@ -10,12 +10,9 @@
   "author": "D3vc0re",
   "license": "ISC",
   "dependencies": {
-    "@sparticuz/chromium": "^123.0.0",
     "cors": "^2.8.5",
     "express": "^4.19.2",
-    "jsdom": "^24.1.0",
-    "puppeteer": "^22.11.0",
-    "puppeteer-core": "^22.11.0"
+    "jsdom": "^24.1.0"
   },
   "devDependencies": {
     "@types/node": "^20.12.12",
