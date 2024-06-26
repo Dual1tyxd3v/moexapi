@@ -1,45 +1,36 @@
-const jsdom = require('jsdom');
-const { JSDOM } = jsdom;
-const puppeteer = require('puppeteer');
-
-const chromium = require('@sparticuz/chromium');
-const puppeteerCore = require('puppeteer-core');
-
 const EMBED_URL = 'https://www.youtube.com/embed/';
 
 const getVideo = async (url) => {
   try {
-    let browser = await puppeteer.launch({
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
-      headless: true,
-    });
-    if (process.env.NODE_ENV === 'development') {
-      browser = await puppeteer.launch({
-        args: ['--no-sandbox', '--disable-setuid-sandbox'],
-        headless: true,
-      });
+    const resp = await fetch(url);
+    if (!resp.ok) {
+      console.log(resp);
+      return { data: [], error: resp.status.toString() };
     }
+    const html = await resp.text();
 
-    const page = await browser.newPage();
+    const object = html
+      .split('script>')
+      .filter((part) => part.includes('ytInitialData'))[0]
+      .split('ytInitialData =')[1]
+      .slice(0, -3)
+      .replace('/\\"/g', '');
+    const content = JSON.parse(object);
 
-    await page.goto(url);
+    const data = content.contents.twoColumnBrowseResultsRenderer.tabs[1].tabRenderer.content.richGridRenderer.contents
+      .slice(0, -1)
+      .map((videoData) => {
+        const title = videoData.richItemRenderer.content.videoRenderer.title.runs[0].text;
+        const date = videoData.richItemRenderer.content.videoRenderer.publishedTimeText.simpleText;
 
-    const html = await page.content();
-    const dom = new JSDOM(html);
-    const doc = dom.window.document;
+        const videoId =
+          videoData.richItemRenderer.content.videoRenderer.navigationEndpoint.commandMetadata.webCommandMetadata.url.split(
+            '='
+          )[1];
+        const url = `${EMBED_URL}${videoId}`;
 
-    const videoCollection = [...doc.querySelectorAll('#content')];
-
-    const data = videoCollection.slice(2).map((content) => {
-      const title = content.querySelector('#video-title').textContent;
-      const postedTime = content.querySelectorAll('.inline-metadata-item')[1].textContent;
-
-      const href = content.querySelector('a').getAttribute('href').split('=')[1];
-      const src = `${EMBED_URL}${href}`;
-
-      return { title, postedTime, src };
-    });
-    browser.close();
+        return { title, date, url };
+      });
 
     return { data, error: '' };
   } catch (e) {
