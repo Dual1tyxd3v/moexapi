@@ -13,7 +13,7 @@ const getVideo = async (url) => {
       args: chromium.args,
       defaultViewport: chromium.defaultViewport,
       executablePath: await chromium.executablePath(),
-      // headless: chromium.headless,
+      headless: chromium.headless,
     });
     if (process.env.NODE_ENV === 'development') {
       browser = await puppeteer.launch({
