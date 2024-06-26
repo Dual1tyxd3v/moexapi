@@ -10,8 +10,8 @@ const EMBED_URL = 'https://www.youtube.com/embed/';
 const getVideo = async (url) => {
   try {
     let browser = await puppeteerCore.launch({
-      /* args: chromium.args,*/
-      defaultViewport: chromium.defaultViewport, 
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
       executablePath: await chromium.executablePath(),
       // headless: chromium.headless,
     });
@@ -29,16 +29,16 @@ const getVideo = async (url) => {
     const html = await page.content();
     const dom = new JSDOM(html);
     const doc = dom.window.document;
-    
+
     const videoCollection = [...doc.querySelectorAll('#content')];
-    
+
     const data = videoCollection.slice(2).map((content) => {
       const title = content.querySelector('#video-title').textContent;
       const postedTime = content.querySelectorAll('.inline-metadata-item')[1].textContent;
-      
+
       const href = content.querySelector('a').getAttribute('href').split('=')[1];
       const src = `${EMBED_URL}${href}`;
-      
+
       return { title, postedTime, src };
     });
     browser.close();
