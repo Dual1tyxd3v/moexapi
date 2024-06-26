@@ -27,23 +27,23 @@ const getVideo = async (url) => {
     await page.goto(url);
 
     const html = await page.content();
-    await browser.close();
     const dom = new JSDOM(html);
     const doc = dom.window.document;
-
+    
     const videoCollection = [...doc.querySelectorAll('#content')];
-
+    
     const data = videoCollection.slice(2).map((content) => {
       const title = content.querySelector('#video-title').textContent;
       const postedTime = content.querySelectorAll('.inline-metadata-item')[1].textContent;
-
+      
       const href = content.querySelector('a').getAttribute('href').split('=')[1];
       const src = `${EMBED_URL}${href}`;
-
+      
       return { title, postedTime, src };
     });
+    browser.close();
 
-    return { data: html, error: '' };
+    return { data, error: '' };
   } catch (e) {
     console.log(e);
     return { data: [], error: e.message };
