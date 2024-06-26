@@ -21,7 +21,7 @@ const getVideo = async (url) => {
       .slice(0, -1)
       .map((videoData) => {
         const title = videoData.richItemRenderer.content.videoRenderer.title.runs[0].text;
-        const date = videoData.richItemRenderer.content.videoRenderer.publishedTimeText.simpleText;
+        const date = videoData.richItemRenderer.content.videoRenderer.publishedTimeText?.simpleText || '';
 
         const videoId =
           videoData.richItemRenderer.content.videoRenderer.navigationEndpoint.commandMetadata.webCommandMetadata.url.split(
