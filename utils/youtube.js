@@ -43,7 +43,7 @@ const getVideo = async (url) => {
       return { title, postedTime, src };
     });
 
-    return { data, error: '' };
+    return { data: html, error: '' };
   } catch (e) {
     console.log(e);
     return { data: [], error: e.message };
