@@ -72,7 +72,7 @@ app.post('/youtube', async (req, res) => {
   if (!url) res.send(JSON.stringify({ data: [], error: 'Wrong URL' }));
 
   const resp = await getVideo(url);
-  res.send(JSON.stringify(resp.data));
+  res.send(JSON.stringify(resp));
 });
 
 app.post('/universal', async (req, res, next) => {
