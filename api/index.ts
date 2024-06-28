@@ -67,6 +67,17 @@ app.get('/nclub', async (_, res) => {
   res.send(JSON.stringify(data));
 });
 
+app.post('/analytics', async (req, res) => {
+  const { reffer, page } = req.body;
+  const ip =
+    (req.headers['x-forwarded-for'] || '').split(',').pop() ||
+    req.headers['x-real-ip'] ||
+    req.connection.remoteAddress ||
+    req.socket.remoteAddress;
+  await sendMessage(`${ip} visited ${page} from ${reffer}`);
+  res.send(true);
+});
+
 app.post('/youtube', async (req, res) => {
   const { url } = req.body || null;
   if (!url) res.send(JSON.stringify({ data: [], error: 'Wrong URL' }));
