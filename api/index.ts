@@ -13,6 +13,7 @@ const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.static(__dirname + '/img'));
 
 app.set('trust proxy', true);
 
